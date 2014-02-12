@@ -13,4 +13,9 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^rastgele/', views.rastgele_sayilar),
     url(r'^dersler/(BT0\d+)/', views.ders_icerikleri),
+    url(r'^$', views.ana_sayfa),
+    url(r'^ogrenciler/(\d+).html/', views.ogrenci_toplulugu),
+    url(r'^ogrenciler/(\d+)/', views.ogrenci_toplulugu),
+    url(r'^saat', views.saat)
+
 )
