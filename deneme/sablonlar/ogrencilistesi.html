@@ -1,0 +1,15 @@
+{% include "icerilenler/ust.html" %}
+
+<table border="1">
+    <tr><th>Adi</th><th>Soyadi</th><th>Vize</th><th>Final</th></tr>
+    {% for ogr in ogrenciler %}
+         <tr>
+            <td>{{ ogr.0 }}</td>
+            <td>{{ ogr.1 }}</td>
+            <td>{{ ogr.2 }}</td>
+            <td>{{ ogr.3 }}</td>
+        </tr>
+    {% endfor %}
+</table>
+
+{% include "icerilenler/alt.html" %}

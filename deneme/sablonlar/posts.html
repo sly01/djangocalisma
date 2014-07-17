@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Posts Listesi</title>
+</head>
+<body>
+    {% for post in posts %}
+    <h3>{{ post.baslik }}</h3><hr/>
+    <p>{{ post.icerik }}</p><hr/>
+    <b>Yazar:</b>{{ post.yazar }}<br/><br/>
+    {% endfor %}
+
+
+</body>
+</html>
