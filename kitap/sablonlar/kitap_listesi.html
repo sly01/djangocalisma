@@ -1,0 +1,19 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+<title>Kitap Listesi</title>
+</head>
+<body>
+<table border="1">
+    <tr><td>No</td><td>Adi</td><td>Yayinevi</td></tr>
+    {% for kitap in kitaplar %}
+    <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ kitap.adi }}</td>
+        <td>{{ kitap.yayinevi }}</td>
+    </tr>
+    {% endfor %}
+</table>
+</body>
+</html>

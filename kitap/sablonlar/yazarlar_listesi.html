@@ -1,0 +1,21 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+<title>Yazarlar Listesi</title>
+</head>
+<body>
+<h1>Yazarlar Listesi</h1>
+<table border="1">
+    <tr><th>No</th><th>Adi</th><th>Soyadi</th><th>Link</th></tr>
+    {% for yazar in yazarlar %}
+    <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ yazar.adi }}</td>
+        <td>{{ yazar.soyadi }}</td>
+        <td><a href="/kitaplar/{{ yazar.id }}">Gormek icin Tiklayiniz</a></td>
+    </tr>
+    {% endfor %}
+    </table>
+</body>
+</html>
