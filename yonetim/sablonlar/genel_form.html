@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+<title>{{ baslik }}</title>
+</head>
+<body>
+<h1>{{ baslik }} Formu</h1>
+
+{% if form.errors %}
+<font color="red">
+    <p>Lutfen hatali/eksik alanlari duzeltip tekrar gonderin</p>
+</font>
+{% endif %}
+
+<form method="POST">
+    {% csrf_token %}
+    <table border=1>
+
+     {% for alan in form %}
+        {% if alan.errors %}<tr class="errors">{% else %}</tr>{% endif %}
+            <th>{{ alan.label }}</th>
+            <td>{{ alan }}</td>
+            {% if alan.errors %}<td>{{ alan.errors }}</td>{% endif %}
+        </tr>
+      {% endfor %}
+
+    </table>
+    <input type="submit"  value="Gonder" />
+{% if ID %}
+    <p><a href="?id={{ID}}&sil=1">Bu Kayidi Sil</a></p>
+{% endif %}
+</form>
+</body>
+</html>

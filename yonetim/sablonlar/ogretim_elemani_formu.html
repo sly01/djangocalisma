@@ -1,0 +1,27 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+<title>Ogretim Elemani Ekleme</title>
+</head>
+<body>
+<h1>Ogretim Ekleme Formu</h1>
+{% if hatalar %}
+
+Asagidaki hatalari duzeltin ve yeniden gonderin
+<font color="red">
+{{ hatalar|unordered_list }}
+</font>
+{% endif %}
+<form method="post" action="/ogretim-elemani-ekleme">
+    {% csrf_token %}
+    <table border="1">
+        <tr><th>Adi:</th><td><input type="text" name="adi" value="{{adi}}"/></td></tr>
+        <tr><th>Soyadi:</th><td><input type="text" name="soyadi" value="{{soyadi}}"/></td></tr>
+        <tr><th>Telefonu:</th><td><input type="text" name="telefonu" value="{{telefonu}}"/></td></tr>
+        <tr><th>E-Posta Adresi:</th><td><input type="text" name="e_posta_adresi" value="{{e_posta_adresi}}"/></td></tr>
+    </table>
+    <input type="submit" value="Gonder"/>
+    </form>
+</body>
+</html>
