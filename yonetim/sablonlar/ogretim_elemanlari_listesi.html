@@ -1,3 +1,4 @@
+{% load filtrelerim %}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
@@ -36,7 +37,8 @@
         <td><a href="/ogretim-elemani-ekleme/?id={{ ogr.id}}"> {{ ogr.soyadi }}</a></td>
         <td>{{ ogr.telefonu }}</td>
         <td>{{ ogr.e_post_adresi }}</td>
-        <td>{{ ogr.verdigi_dersler|unordered_list }}</td>
+        <td>{{ ogr.id|ders_bul|unordered_list }} </td>
+        <!--<td>{{ ogr.verdigi_dersler|unordered_list }}</td>-->
     </tr>
     {% endfor %}
     </table>

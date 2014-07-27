@@ -1,13 +1,10 @@
+from django.forms import ModelForm
 from django import forms
-
-class OgretimElemaniFormu(forms.Form):
-    UNVANSECENEKLERI=(('AG', 'Arastirma Gorevlisi'), ('DR', 'Doktor'), ('YD', 'Yardimci Docent Doktor'), ('DD', 'Docent Doktor'), ('PD', 'Profesor Doktor'),)
-    unvani = forms.ChoiceField(label="Unvani",
-                             choices = UNVANSECENEKLERI, required=False)
-    adi = forms.CharField(label="Adi")
-    soyadi = forms.CharField(label="Soyadi")
-    telefonu = forms.CharField(label="Telefon Numarasi",required=False)
-    e_post_adresi = forms.EmailField(label="E-Posta Adresi",required=False)
+from models import *
+from django.forms import Textarea
+class OgretimElemaniFormu(ModelForm):
+    class Meta:
+        model = OgretimElemani
 
     def clean_e_post_adresi(self):
         adres = self.cleaned_data['e_post_adresi']
@@ -17,6 +14,20 @@ class OgretimElemaniFormu(forms.Form):
                 raise forms.ValidationError('Bu adres gecersizdir!')
         return adres
 
+class DersFormu(ModelForm):
+    class Meta:
+        model=Ders
+        widgets = {
+            'tanimi': Textarea(attrs={'cols':35, 'rows': 5}),
+        }
+
+class OgretimElemaniAltFromu(ModelForm):
+    class Meta:
+        model = OgretimElemani
+        fields = ('adi', 'soyadi', 'e_post_adresi')
+
+
+
 class AramaFormu(forms.Form):
     aranacak_kelime=forms.CharField()
 
@@ -25,3 +36,4 @@ class AramaFormu(forms.Form):
         if len(kelime) < 3:
             raise forms.ValidationError('Aranacak kelime 3 harften az olamaz!')
         return kelime
+

@@ -5,6 +5,7 @@ from django.shortcuts import render_to_response
 from yonetim.forms import *
 from django.core.paginator import Paginator
 from django.db.models import Q
+from django.forms.models import modelformset_factory
 # Create your views here.
 
 
@@ -21,6 +22,7 @@ def ogretim_elemanlari_listesi(request):
         if olcut in siralamaOlcutleri:
             siralama = siralamaOlcutleri[olcut]
     ogretim_elemanlari_tumu = OgretimElemani.objects.order_by(siralama)
+
     arama_formu = AramaFormu()
     if request.GET.get('aranacak_kelime'):
         arama_formu = AramaFormu(request.GET)
@@ -29,6 +31,7 @@ def ogretim_elemanlari_listesi(request):
             ogretim_elemanlari_tumu = OgretimElemani.objects.filter(
                 Q(adi__contains=aranacak_kelime) | Q(soyadi__contains=aranacak_kelime)
             )
+
     ogretim_elemanlari_sayfalari = Paginator(ogretim_elemanlari_tumu, 10)
     ogretim_elemanlari = ogretim_elemanlari_sayfalari.page(int(sayfa))
     for ogrelm in ogretim_elemanlari:
@@ -47,25 +50,25 @@ def ogretim_elemani_ekleme(request):
     if ogrElmID:
         try:
             ogrelm = OgretimElemani.objects.get(id=ogrElmID)
+            form = OgretimElemaniFormu(instance=ogrelm)
         except:
             return HttpResponse('Aradiginiz ogretim elemani bulunamiyor: ID=%s' % ogrElmID)
+
+    else:
+        form = OgretimElemaniFormu()
 
     if request.GET.get('sil'):
         ogrelm.delete()
         return HttpResponseRedirect('/ogretim-elemanlari-listesi/')
 
     if request.method == 'POST':
-        form = OgretimElemaniFormu(request.POST)
+        if ogrElmID:
+            form = OgretimElemaniFormu(request.POST)
+        else:
+            form = OgretimElemaniFormu(request.POST)
 
         if form.is_valid():
-            temiz_veri = form.cleaned_data
-            if not ogrElmID: ogrelm=OgretimElemani()
-            ogrelm.unvani = temiz_veri['unvani']
-            ogrelm.adi = temiz_veri['adi']
-            ogrelm.soyadi=temiz_veri['soyadi']
-            ogrelm.telefonu=temiz_veri.get('telefonu')
-            ogrelm.e_post_adresi=temiz_veri.get('e_post_adresi')
-            ogrelm.save()
+            form.save()
             return HttpResponseRedirect('/ogretim-elemanlari-listesi')
     else:
         if ogrElmID: form = OgretimElemaniFormu(initial=ogrelm.__dict__)
@@ -74,3 +77,20 @@ def ogretim_elemani_ekleme(request):
                 'genel_form.html',
                 {'form':form, 'baslik':'Ogretim Elemani Ekleme', 'ID':ogrElmID},
                 context_instance = RequestContext(request))
+
+def coklu_ogretim_elemani_ekleme(request):
+    OgretimElemaniFormuKumesi = modelformset_factory(OgretimElemani,
+                                                     fields=('unvani', 'adi', 'soyadi'),
+                                                     can_delete=True)
+    if request.method == 'POST':
+        formkumesi = OgretimElemaniFormuKumesi(request.POST)
+        if formkumesi.is_valid():
+            formkumesi.save()
+            return HttpResponseRedirect('/coklu-ogretim-elemani-ekleme/')
+    else:
+        formkumesi = OgretimElemaniFormuKumesi()
+
+    return render_to_response(
+            'coklu_ogretim_elemani.html',
+            locals(),
+            context_instance=RequestContext(request))
