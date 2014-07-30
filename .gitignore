@@ -65,7 +65,9 @@
  .idea
  .idea/
  .idea/**/*
-
+ **/.idea
+ **/.idea/
+ **/.idea/**/*
  # Ignore pow files
  .powrc
 
