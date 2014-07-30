@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Ders Listesi</title>
+</head>
+<body>
+<h1>Ders Listesi</h1>
+<table border="1">
+    <tr>
+        <th>Sira</th>
+        {% if olcut == '1' %} <th class="siralanan"> {% else %} <th> {% endif %} <a href="?sirala=1">Kodu</a></th>
+        {% if olcut == '2' %} <th class="siralanan"> {% else %} <th> {% endif %} <a href="?sirala=2">Adi</a></th>
+        {% if olcut == '3' %} <th class="siralanan"> {% else %} <th> {% endif %} <a href="?sirala=3">Ogretim Elemani</th></a>
+
+    </tr>
+    {% for ders in ders_listesi %}
+    <tr>
+        <td><a href="/ders-ekleme/?id={{ ders.id }}">
+        {{ ders_listesi.start_index|add:forloop.counter0 }}</a></td>
+        <td><a href="/ders-ekleme/?id={{ ders.id}}"> {{ ders.kodu }}</a></td>
+        <td><a href="/ders-ekleme/?id={{ ders.id}}"> {{ ders.adi }}</a></td>
+        <td>{{ ders.ogretim_elemani }}</td>
+
+    </tr>
+    {% endfor %}
+    </table>
+{% if ders_listesi.has_previous %}
+    <a href="?sayfa={{ ders_listesi.previous_page_number }}">Onceki</a>
+{% endif %}
+
+Sayfa {{ ders_listesi.number }} / {{ ders_listesi.paginator.num_pages }}
+
+{% if ders_listesi.has_next %}
+    <a href="?sayfa= {{ ders_listesi.next_page_number }}">Sonraki</a>
+{% endif %}
+<br/>
+<br/>
+{% for s in ders_listesi.paginator.page_range %}
+    <a href="?sayfa={{s}}">{{s}}</a>
+{% endfor %}
+<p><a href="/ders-ekleme/">Yeni Kayit</a></p>
+</body>
+</html>

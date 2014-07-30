@@ -20,6 +20,12 @@ class DersFormu(ModelForm):
         widgets = {
             'tanimi': Textarea(attrs={'cols':35, 'rows': 5}),
         }
+        help_texts = {
+            'kodu': 'Ogrenci isleri tarafindan verilen ders kodu',
+            'adi': 'Dersin adini yaziniz',
+            'ogretim_elemani': 'Dersi veren ogretim elemanini seciniz',
+            'tanimi': 'Bu alana ders icerigi yazilacaktir',
+        }
 
 class OgretimElemaniAltFromu(ModelForm):
     class Meta:
