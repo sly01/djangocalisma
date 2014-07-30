@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Ogrenci Listesi</title>
+</head>
+<body>
+<h1>Ogrenci Listesi</h1>
+<table border="1">
+    <tr>
+        <th>Sira</th>
+        {% if olcut == '1' %} <th class="siralanan"> {% else %} <th> {% endif %} <a href="?sirala=1">Numarasi</a></th>
+        {% if olcut == '2' %} <th class="siralanan"> {% else %} <th> {% endif %} <a href="?sirala=2">Adi</a></th>
+        {% if olcut == '3' %} <th class="siralanan"> {% else %} <th> {% endif %} <a href="?sirala=3">Soyadi</th></a>
+
+    </tr>
+    {% for ogrenci in ogrenci_listesi %}
+    <tr>
+        <td>{{ ogrenci.id }}</td>
+        <td><a href="/ogrenci-ekleme/?id={{ ogrenci.id}}"> {{ ogrenci.numarasi }}</a></td>
+        <td><a href="/ogrenci-ekleme/?id={{ ogrenci.id}}"> {{ ogrenci.adi }}</a></td>
+        <td><a href="/ogrenci-ekleme/?id={{ ogrenci.id}}"> {{ ogrenci.soyadi }}</a></td>
+
+    </tr>
+    {% endfor %}
+    </table>
+{% if ogrenci_listesi.has_previous %}
+    <a href="?sayfa={{ ogrenci_listesi.previous_page_number }}">Onceki</a>
+{% endif %}
+
+Sayfa {{ ogrenci_listesi.number }} / {{ ogrenci_listesi.paginator.num_pages }}
+
+{% if ogrenci_listesi.has_next %}
+    <a href="?sayfa= {{ ogrenci_listesi.next_page_number }}">Sonraki</a>
+{% endif %}
+<br/>
+<br/>
+{% for s in ogrenci_listesi.paginator.page_range %}
+    <a href="?sayfa={{s}}">{{s}}</a>
+{% endfor %}
+<p><a href="/ogrenci-ekleme/">Yeni Kayit</a></p>
+</body>
+</html>

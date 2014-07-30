@@ -146,3 +146,25 @@ def ders_ekleme(request):
         'genel_form.html',
         {'form':form, 'baslik': 'Ders ekleme', 'ID':dersID},
         context_instance = RequestContext(request))
+
+def ogrenci_listesi(request):
+    siralama = 'adi'
+    olcut = request.GET.get('sirala')
+    sayfa = request.GET.get('sayfa',1)
+    if olcut:
+        siralamaOlcutleri = {
+            '1':'numarasi',
+            '2':'adi',
+            '3':'soyadii'
+        }
+        if olcut in siralamaOlcutleri:
+            siralama = siralamaOlcutleri[olcut]
+    ogrenci_listesi_tumu = Ogrenci.objects.order_by(siralama)
+
+    ogrenci_listesi_sayfalari = Paginator(ogrenci_listesi_tumu, 5)
+    ogrenci_listesi = ogrenci_listesi_sayfalari.page(int(sayfa))
+
+    return render_to_response('ogrenci_listesi.html', locals())
+
+def ogrenci_ekleme(request):
+    pass
