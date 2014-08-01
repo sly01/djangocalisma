@@ -198,3 +198,10 @@ def ogrenci_ekleme(request):
         'genel_form.html',
         {'form':form, 'baslik': 'Ogrenci Ekleme', 'ID':ogrID},
         context_instance = RequestContext(request))
+
+def yonetim(request):
+    return HttpResponse('<h2>Yonetim Islemleri</h2> <p>Islemler icin asagidaki kopruleri kullaniniz</p>'
+                        '<a href="ogretim-elemanlari-listesi">Ogretim Elemanlari Islemleri</a><br/><br/>'
+                        '<a href="ders-listesi">Ders Islemleri</a><br/><br/>'
+                        '<a href="ogrenci-listesi">Ogrenci Islemleri</a>'
+    )

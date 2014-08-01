@@ -17,4 +17,5 @@ urlpatterns = patterns('',
     url(r'^ders-ekleme/', yonetim.views.ders_ekleme),
     url(r'^ogrenci-listesi', yonetim.views.ogrenci_listesi),
     url(r'^ogrenci-ekleme', yonetim.views.ogrenci_ekleme),
+    url(r'^yonetim', yonetim.views.yonetim),
 )
