@@ -21,6 +21,7 @@ class Ders(models.Model):
     ogretim_elemani = models.ForeignKey(OgretimElemani)
     tanimi = models.CharField(max_length=1000, blank=True)
 
+
     def __unicode__(self):
         return 'Ders: %s: %s' % (self.kodu, self.adi)
     class Meta:
@@ -31,6 +32,7 @@ class Ogrenci(models.Model):
     adi = models.CharField(max_length=50)
     soyadi = models.CharField(max_length=50)
     aldigi_dersler = models.ManyToManyField(Ders)
+    cinsiyet = models.CharField(max_length=1)
 
     def __unicode__(self):
         return 'Ogrenci: %s, %s' % (self.soyadi, self.adi)

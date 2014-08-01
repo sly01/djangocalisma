@@ -20,7 +20,17 @@
      {% for alan in form %}
         {% if alan.errors %}<tr class="errors">{% else %}</tr>{% endif %}
             <th>{{ alan.label }}</th>
-            <td>{{ alan }} <br/> {{ alan.help_text }}</td>
+            {% if alan.name == "cinsiyet" %}
+                 <td>
+                {% for c in alan %}
+                  {{ c }}
+                 {% endfor %}
+                 </td>
+            {% else %}
+               <td> {{ alan }} <br/> {{ alan.help_text }}</td>
+
+            {% endif %}
+
 
             {% if alan.errors %}<td>{{ alan.errors }}</td>{% endif %}
         </tr>

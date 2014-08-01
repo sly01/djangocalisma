@@ -27,6 +27,21 @@ class DersFormu(ModelForm):
             'tanimi': 'Bu alana ders icerigi yazilacaktir',
         }
 
+class OgrenciFormu(ModelForm):
+    class Meta:
+        model = Ogrenci
+        widgets = {
+            'cinsiyet': forms.RadioSelect(choices=(('E', 'Erkek'), ('K','Kiz'))),
+            'aldigi_dersler': forms.CheckboxSelectMultiple(),
+        }
+        help_texts = {
+            'cinsiyeti': 'Ogrencinin cinsiyeti',
+            'numarasi': 'Ogrencinin numarasi',
+            'adi': 'Ogrencinin Adi',
+            'soyadi': 'Ogrencini soyadi',
+            'aldigi_dersler':'"Ctrl" (Mac\'de "Command") tusuna basili tutularak birden fazla secim yapilabilir',
+        }
+
 class OgretimElemaniAltFromu(ModelForm):
     class Meta:
         model = OgretimElemani

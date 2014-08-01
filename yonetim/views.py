@@ -167,4 +167,34 @@ def ogrenci_listesi(request):
     return render_to_response('ogrenci_listesi.html', locals())
 
 def ogrenci_ekleme(request):
-    pass
+    ogrID = request.GET.get('id')
+
+    if ogrID:
+        try:
+            ogrenci = Ogrenci.objects.get(id=ogrID)
+            form = OgrenciFormu(instance=ogrenci)
+        except:
+            return HttpResponse('Aradiginiz ogrenci bulunamiyor: ID=%s' % ogrID)
+    else:
+        form = OgrenciFormu()
+
+    if request.GET.get('sil'):
+        ogrenci.delete()
+        return HttpResponseRedirect('/ogrenci-listesi')
+    if request.method == 'POST':
+        if ogrID:
+            form = OgrenciFormu(request.POST, instance=ogrenci)
+        else:
+            form = OgrenciFormu(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/ogrenci-listesi')
+    else:
+        if ogrID:
+            form = OgrenciFormu(initial=ogrenci.__dict__)
+        else:
+            form = OgrenciFormu()
+    return render_to_response(
+        'genel_form.html',
+        {'form':form, 'baslik': 'Ogrenci Ekleme', 'ID':ogrID},
+        context_instance = RequestContext(request))
