@@ -6,13 +6,22 @@ from yonetim.forms import *
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django.forms.models import modelformset_factory
+import random
+import time
 # Create your views here.
 
 
 def ogretim_elemanlari_listesi(request):
-    siralama = 'soyadi'
-    olcut = request.GET.get('sirala')
-    sayfa = request.GET.get('sayfa',1)
+    if request.GET.get('sirala'):
+        request.session['ogretim_elemani_siralama'] = request.GET['sirala']
+    if not 'ogretim_elemani_siralama' in request.session:
+        request.session['ogretim_elemani_siralama'] = '1'
+    olcut = request.session['ogretim_elemani_siralama']
+    if request.GET.get('sayfa'):
+        request.session['ogretim_elemani_sayfa'] = request.GET['sayfa']
+    if not 'ogretim_elemani_sayfa' in request.session:
+        request.session['ogretim_elemani_sayfa'] = '1'
+    sayfa = request.session['ogretim_elemani_sayfa']
     if olcut:
         siralamaOlcutleri = {
             '1':'adi',
@@ -205,3 +214,20 @@ def yonetim(request):
                         '<a href="ders-listesi">Ders Islemleri</a><br/><br/>'
                         '<a href="ogrenci-listesi">Ogrenci Islemleri</a>'
     )
+
+def cerez_deneme(request):
+    cerez_listesi = ['Findik', 'Fistik', 'Ceviz', 'Badem', 'Leblebi', 'Misir Kavurgasi']
+    if not 'sevdigim_cerez' in request.COOKIES:
+        sevdigim_cerez = random.choice(cerez_listesi)
+        gun = 7
+        son_kullanma_tarihi = time.strftime('%a, %d-%b-%Y %H:%M:S GMT', time.localtime(time.time() + gun*24*60*60))
+        response = HttpResponse(
+            'Sevidign cerez yoktu sana su cerezi sevdirdim: <b>%s</b>' % sevdigim_cerez
+        )
+        response.set_cookie('sevdigim_cerez', sevdigim_cerez, expires=son_kullanma_tarihi)
+        return  response
+    else:
+        sevdigim_cerez = request.COOKIES['sevdigim_cerez']
+        return HttpResponse(
+            'Sevdigin cerez budur: <b>%s</b>' % sevdigim_cerez
+        )
