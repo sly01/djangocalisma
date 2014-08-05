@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>OKUL: Yonetim Ana Sayfasi</title>
+</head>
+<body>
+<h1>Yonetim Islemleri</h1>
+
+{% if request.user.is_authenticated %}
+    <h3>Merhaba {{ request.user.get_full_name }}</h3>
+    <p>Islemler icin asagidaki kopruleri kullaniniz</p>
+    <p><a href="/ogretim-elemanlari-listesi/">Ogretim Elemanlari Islemleri</a>
+    <p><a href="/ders-listesi/">Ders Islemleri</a>
+    <p><a href="/ogrenci-listesi/">Ogrenci Islemleri</a>
+    <br><br><a href="?cikis=cikis_yap">Cikis Yap</a>
+{% else %}
+    <h3>Kullanici Girisi</h3>
+    <form method="POST">
+        {% csrf_token %}
+        <table border="1">
+            {{ giris_formu }}
+        </table>
+        <input type="submit" name="giris_yap" value="Giris Yap" />
+    </form>
+{% endif %}
+</body>
+</html>

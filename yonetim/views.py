@@ -9,6 +9,8 @@ from django.forms.models import modelformset_factory
 import random
 import time
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import *
 # Create your views here.
 
 
@@ -54,6 +56,7 @@ def get_deneme(request):
         adi = request.GET['adi']
         soyadi = request.GET['soyadi']
         return HttpResponse('<b>Adi:</b> %s <br><b>Soyadi:</b> %s' % (adi, soyadi))
+@login_required()
 def ogretim_elemani_ekleme(request):
     ogrElmID = request.GET.get('id')
 
@@ -208,9 +211,26 @@ def ogrenci_ekleme(request):
         'genel_form.html',
         {'form':form, 'baslik': 'Ogrenci Ekleme', 'ID':ogrID},
         context_instance = RequestContext(request))
-@login_required
+
 def yonetim(request):
-    return render_to_response('yonetim.html',locals())
+    if request.GET.get('cikis'):
+        logout(request)
+        return HttpResponseRedirect('/yonetim/')
+    if request.POST.get('giris_yap'):
+        giris_formu = AuthenticationForm(data=request.POST)
+        if giris_formu.is_valid():
+            username = request.POST['username']
+            password = request.POST['password']
+            kullanici = authenticate(username=username, password=password)
+            if kullanici is not None:
+                if kullanici.is_active:
+                    login(request, kullanici)
+    else:
+        giris_formu = AuthenticationForm()
+
+    return render_to_response('yonetim_ana_sayfa.html',
+                              locals(),
+                              context_instance = RequestContext(request))
 
 def cerez_deneme(request):
     cerez_listesi = ['Findik', 'Fistik', 'Ceviz', 'Badem', 'Leblebi', 'Misir Kavurgasi']
