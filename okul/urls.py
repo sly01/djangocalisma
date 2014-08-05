@@ -19,4 +19,6 @@ urlpatterns = patterns('',
     url(r'^ogrenci-ekleme', yonetim.views.ogrenci_ekleme),
     url(r'^yonetim', yonetim.views.yonetim),
     url(r'^cerez-deneme', yonetim.views.cerez_deneme),
+    url(r'^accounts/login/$', 'django.contrib.auth.views.login', {'template_name': 'login.html'}),
+    url(r'^accounts/logout/$', 'django.contrib.auth.views.logout', {'next_page': '/accounts/login/'}),
 )

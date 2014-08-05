@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Yonetim Sayfasi</title>
+</head>
+<body>
+<h2>Yonetim Islemleri</h2>
+
+{% if request.user.is_authenticated %}
+    <h3>Merhaba {{  request.user.get_full_name }}</h3>
+    <br>
+{% endif %}
+
+<p>Islemler icin asagidaki kopruleri kullaniniz</p>
+
+<a href="ogretim-elemanlari-listesi">Ogretim Elemanlari Islemleri</a>
+<br/>
+<br/>
+<a href="ders-listesi">Ders Islemleri</a>
+<br/>
+<br/>
+<a href="ogrenci-listesi">Ogrenci Islemleri</a>
+
+<br>
+<br>
+
+<a href="/accounts/logout/">Cikis Yap</a>
+</body>
+</html>
