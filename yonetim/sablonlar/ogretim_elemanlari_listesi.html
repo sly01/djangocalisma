@@ -56,6 +56,8 @@ Sayfa {{ ogretim_elemanlari.number }} / {{ ogretim_elemanlari.paginator.num_page
 {% for s in ogretim_elemanlari.paginator.page_range %}
     <a href="?sayfa={{s}}">{{s}}</a>
 {% endfor %}
-<p><a href="/ogretim-elemani-ekleme/">Yeni Kayit</a></p>
+{% if perms.yonetim.add_ogretimelemani %}
+    <p><a href="/ogretim-elemani-ekleme/">Yeni Kayit</a></p>
+{% endif %}
 </body>
 </html>

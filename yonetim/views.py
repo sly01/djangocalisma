@@ -49,7 +49,7 @@ def ogretim_elemanlari_listesi(request):
     for ogrelm in ogretim_elemanlari:
         verdigi_dersler = Ders.objects.filter(ogretim_elemani=ogrelm)
         ogrelm.verdigi_dersler=verdigi_dersler
-    return render_to_response('ogretim_elemanlari_listesi.html', locals())
+    return render_to_response('ogretim_elemanlari_listesi.html', locals(), context_instance=RequestContext(request))
 
 def get_deneme(request):
     if request.method == 'GET':
@@ -81,7 +81,10 @@ def ogretim_elemani_ekleme(request):
             form = OgretimElemaniFormu(request.POST)
 
         if form.is_valid():
-            form.save()
+            if request.user.has_perm('yonetim.add_ogretimelemani'):
+                form.save()
+            else:
+                return HttpResponse('Ogretim Elemani Ekleme Yetkiniz Yok.')
             return HttpResponseRedirect('/ogretim-elemanlari-listesi')
     else:
         if ogrElmID: form = OgretimElemaniFormu(initial=ogrelm.__dict__)
